@@ -1,5 +1,7 @@
 ## Hi there 👋
 
+- 🌱 I’m currently learning Intelligent Product Design, Human-Computer Interaction, Computer Graphics and other core modules.
+
 <!--
 **Computboy/Computboy** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 
