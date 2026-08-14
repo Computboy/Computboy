@@ -1,0 +1,56 @@
+name: Update Contribution Pulse
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 0 * * *"
+  push:
+    paths:
+      - "scripts/fetch_contributions.py"
+      - "scripts/render_contribution_wave.py"
+      - ".github/workflows/update-contribution-pulse.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout profile repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Pillow
+        run: python -m pip install --disable-pip-version-check Pillow
+
+      - name: Fetch public + private contribution counts
+        env:
+          PROFILE_TOKEN: ${{ secrets.PROFILE_TOKEN }}
+        run: |
+          python scripts/fetch_contributions.py \
+            --username "${{ github.repository_owner }}" \
+            --output contributions.json
+
+      - name: Render GIF
+        run: |
+          python scripts/render_contribution_wave.py \
+            --data contributions.json \
+            --output assets/contribution-wave.gif
+
+      - name: Commit updated GIF
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/contribution-wave.gif
+          if git diff --cached --quiet; then
+            echo "No GIF changes to commit."
+          else
+            git commit -m "chore: update contribution pulse"
+            git push
+          fi
