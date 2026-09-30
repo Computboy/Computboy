@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  <img src="https://skillicons.dev/icons?i=cpp,python,swift,blender,unity,figma,git,vscode,cmake" alt="Tech Stack" />
+  <img src="https://skillicons.dev/icons?i=cpp,python,swift,unity,unreal,blender,figma,vscode,git" alt="Tech Stack" />
 </p>
 
 
